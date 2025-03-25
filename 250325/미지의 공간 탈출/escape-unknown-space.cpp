@@ -93,7 +93,7 @@ void find_connector() {
 
 	// 4. 탈출구가 큐브 북쪽
 	else if (connector_2d.r < left_top.r) {
-		connector_3d = { 3, M - 1, right_bot.c - left_top.c };
+		connector_3d = { 3, M - 1, connector_2d.c - left_top.c };
 	}
 
 	// cout << "Con 3d: " << connector_3d.dim << ' ' << connector_3d.r << ' ' << connector_3d.c << endl;
@@ -333,7 +333,6 @@ int main() {
 		cout << -1;
 		return 0;
 	}
-
 
 	NODE_2D exit_2d = run_2d(exit_3d.turn + 1);
 	if (exit_2d.turn == -1) { // 3차원 탈출 못한 경우 
