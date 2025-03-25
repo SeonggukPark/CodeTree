@@ -88,12 +88,12 @@ void find_connector() {
 
 	// 3. 탈출구가 큐브 남쪽
 	else if (connector_2d.r > right_bot.r) {
-		connector_3d = { 2, M - 1, connector_2d.c - left_top.c };
+		connector_3d = { 2, M - 1, connector_2d.c - left_top.c};
 	}
 
 	// 4. 탈출구가 큐브 북쪽
 	else if (connector_2d.r < left_top.r) {
-		connector_3d = { 3, M - 1, connector_2d.c - left_top.c };
+		connector_3d = { 3, M - 1, right_bot.c - connector_2d.c};
 	}
 
 	// cout << "Con 3d: " << connector_3d.dim << ' ' << connector_3d.r << ' ' << connector_3d.c << endl;
