@@ -1,3 +1,9 @@
+/*
+*   삼성 SW 역량테스트 2024 상반기 오후 1번 문제 / 마법의 숲 탐색 (L13)
+*   Date: 2025-03-31 (Mon)
+*   Duration: 1h 51m 13s
+*/
+
 #define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
 #include <queue>
@@ -36,6 +42,18 @@ struct POS {
 
 queue<GOLEM> q_golem;
 vector<vector<int> > grid, exit_num, visited;
+
+// ---------------- 디버깅 함수 ----------------
+void traverse_2d(const vector<vector<int> >& vec) {
+    cout << "Traverse 2d.. " << endl;
+    for (int i = 0; i < vec.size(); ++i) {
+        for (int j = 1; j < vec[i].size(); ++j) {
+            cout << vec[i][j] << ' ';
+        }
+        cout << endl;
+    }
+    cout << endl;
+}
 
 // ---------------- 보조 함수 ----------------
 void fill_2d(vector<vector<int> >& vec, int data) {
