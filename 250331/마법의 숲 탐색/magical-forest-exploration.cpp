@@ -36,6 +36,7 @@ struct POS {
 
 queue<GOLEM> q_golem;
 vector<vector<int> > grid, exit_num, visited;
+
 // ---------------- 보조 함수 ----------------
 void fill_2d(vector<vector<int> >& vec, int data) {
     for (int i = 0; i < vec.size(); ++i) {
@@ -54,7 +55,7 @@ int rotate_ccw(int dir) {
 }
 
 bool is_valid(int r, int c) {
-    if (r < 0 || c <= 0 || r > R + 1 || c > C) return false;
+    if (r < 0 || c <= 0 || r > R + 2 || c > C) return false;
     return true;
 }
 // ---------------- 메인 함수 ----------------
@@ -64,8 +65,8 @@ void init() {
 
 void input() {
     cin >> R >> C >> K;
-    grid.resize(R + 2), visited.resize(R + 2), exit_num.resize(R + 2);
-    for (int i = 0; i <= R + 1; ++i) grid[i].resize(C + 1), visited[i].resize(C + 1), exit_num[i].resize(C + 1);
+    grid.resize(R + 3), visited.resize(R + 3), exit_num.resize(R + 3);
+    for (int i = 0; i <= R + 2; ++i) grid[i].resize(C + 1), visited[i].resize(C + 1), exit_num[i].resize(C + 1);
 
     int c, d;
     for (int i = 2; i <= K + 1; i++) {
@@ -142,7 +143,7 @@ int move_golem(GOLEM gol) {
         if (east_golem(cur_gol, cur_dir)) continue;
 
         // 남, 서, 동으로 못 움직이면 종료
-        if (cur_gol.r < 3) return -1; // 격자 밖으로 나간 경우
+        if (cur_gol.r < 4) return -1; // 격자 밖으로 나간 경우
 
         color_golem(cur_gol, cur_dir, gol.idx);
         // traverse_2d(grid);
@@ -158,7 +159,8 @@ void run() {
         q_golem.pop();
 
         int score = move_golem(top);
-        if (score != -1) acc += (score - 1);
+        // cout << "Score: " << score - 2 << endl;
+        if (score != -1) acc += (score - 2);
         else {
             fill_2d(grid, EMPTY);
             fill_2d(exit_num, EMPTY);
