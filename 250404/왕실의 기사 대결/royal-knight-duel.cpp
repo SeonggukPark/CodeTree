@@ -13,6 +13,7 @@
 #include <algorithm>
 #include <numeric>
 #include <iomanip>
+#include <string>
 
 #define endl '\n'
 #define INF 987654321
@@ -29,6 +30,9 @@
 using namespace std;
 
 // ------------------ 변수 선언 ------------------
+string dir_str[4] = { "UP", "RIGHT", "DOWN", "LEFT"};
+
+
 int L; // 체스판 크기 (3 ~ 40)
 int N; // 기사 수 (1 ~ 30)
 int Q; // 명령 수 (1 ~ 100)
@@ -61,8 +65,20 @@ void traverse_2d(const vector<vector<int> > & v) {
     cout << "[Traverse]" << endl;
     for (int i = 1; i < v.size(); ++i) {
         for (int j = 1; j < v[i].size(); ++j) {
-            cout << setw(4);
             cout << v[i][j] << ' ';
+        }
+        cout << endl;
+    }
+    cout << endl;
+}
+
+void traverse_grid() {
+    cout << "[Traverse]" << endl;
+    for (int i = 1; i < grid.size(); ++i) {
+        for (int j = 1; j < grid[i].size(); ++j) {
+            if (grid[i][j] == EMPTY) cout << "□" << ' ';
+            else if (grid[i][j] == WALL) cout << "■" << ' ';
+            else if (grid[i][j] == TRAP) cout << "★" << ' ';
         }
         cout << endl;
     }
@@ -137,6 +153,7 @@ bool judge_move(int idx, int d) {
     }
 
 
+    // cout << "----------------------------" << endl;
     while (!q.empty()) {
         NODE top = q.front();
         // cout << top.idx << ' ' << top.r << ' ' << top.c << endl;
@@ -144,6 +161,7 @@ bool judge_move(int idx, int d) {
 
         int nr = top.r + dr[d], nc = top.c + dc[d];
         if (!is_grid(nr, nc) || grid[nr][nc] == WALL) {
+            // cout << nr << ' ' << nc << endl;
             pushed_knights.clear();
             return false;
         }
@@ -159,13 +177,13 @@ bool judge_move(int idx, int d) {
 
             if (d == RIGHT || d == LEFT) {
                 for (int i = 0; i < knights[next].h; ++i) {
-                    q.push({ nr + i, nc, next });
+                    q.push({ knights[next].r + i, knights[next].c, next});
                 }
             }
 
             else if (d == UP || d == DOWN) {
                 for (int i = 0; i < knights[next].w; ++i) {
-                    q.push({ nr, nc + i, next });
+                    q.push({ knights[next].r, knights[next].c + i, next });
                 }
             }
         }
@@ -182,6 +200,7 @@ bool judge_move(int idx, int d) {
 bool move_knights() {
     int knight, dir;
     cin >> knight >> dir;
+    // cout << knight << ' '  << dir_str[dir] << endl;
 
     // 사라진 기사일 경우 명령 무시
     if (alive_knights.find(knight) == alive_knights.end()) return false;
@@ -208,6 +227,7 @@ bool move_knights() {
         for (int h = 0; h < k.h; h++) {
             for (int w = 0; w < k.w; w++) {
                 grid_knight[k.r + h][k.c + w] = i;
+
             }
         }
     }
@@ -223,9 +243,9 @@ void calc_damage() {
         KNIGHT& k = knights[i];
         int cur_dam = 0;
 
-        for (int h = 0; h < knights[i].h; h++) {
-            for (int w = 0; w < knights[i].w; w++) {
-                if (grid[knights[i].r + h][knights[i].c + w] == TRAP) cur_dam++;
+        for (int h = 0; h < k.h; h++) {
+            for (int w = 0; w < k.w; w++) {
+                if (grid[k.r + h][k.c + w] == TRAP) cur_dam++;
             }
         }
 
@@ -236,9 +256,9 @@ void calc_damage() {
             killed_kights.insert(i);
 
             // grid에서도 제거
-            for (int h = 0; h < knights[i].h; h++) {
-                for (int w = 0; w < knights[i].w; w++) {
-                    grid_knight[knights[i].r + h][knights[i].c + w] = 0;
+            for (int h = 0; h < k.h; h++) {
+                for (int w = 0; w < k.w; w++) {
+                    grid_knight[k.r + h][k.c + w] = 0;
                 }
             }
         }
@@ -255,8 +275,8 @@ void acc_damage() {
     // 생존한 기사들의 총 데미지 합 출력
     for (int i : alive_knights) {
         acc += damage_acc[i];
+        // cout << i << ' ' << damage_acc[i] << endl;
     }
-
     cout << acc;
 }
 
@@ -266,6 +286,7 @@ void run() {
     while (Q--) {
         if(move_knights()) calc_damage();
         // traverse_2d(grid_knight);
+        // traverse_grid();
     }
     acc_damage();
 }
@@ -273,7 +294,6 @@ void run() {
 int main() {
     ios_base::sync_with_stdio(false);
     cin.tie(nullptr);
-    // freopen("input.txt", "r", stdin);
 
     init();
     input();
