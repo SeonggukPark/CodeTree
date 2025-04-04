@@ -1,7 +1,7 @@
 /*
 *   삼성 SW 역량테스트 2023 하반기 오전 1번 문제 / 왕실의 기사 대결 (L13)
 *   Date: 2025-04-01 (화)
-*   Duration: 
+*   Duration: 2h 15m
 */
 
 #define _CRT_SECURE_NO_WARNINGS
@@ -30,9 +30,6 @@
 using namespace std;
 
 // ------------------ 변수 선언 ------------------
-string dir_str[4] = { "UP", "RIGHT", "DOWN", "LEFT"};
-
-
 int L; // 체스판 크기 (3 ~ 40)
 int N; // 기사 수 (1 ~ 30)
 int Q; // 명령 수 (1 ~ 100)
@@ -129,7 +126,6 @@ void input() {
             }
         }
     }
-
     fill(damage_acc.begin(), damage_acc.end(), 0);
 }
 
@@ -152,16 +148,12 @@ bool judge_move(int idx, int d) {
         }
     }
 
-
-    // cout << "----------------------------" << endl;
     while (!q.empty()) {
         NODE top = q.front();
-        // cout << top.idx << ' ' << top.r << ' ' << top.c << endl;
         q.pop();
 
         int nr = top.r + dr[d], nc = top.c + dc[d];
         if (!is_grid(nr, nc) || grid[nr][nc] == WALL) {
-            // cout << nr << ' ' << nc << endl;
             pushed_knights.clear();
             return false;
         }
@@ -200,7 +192,6 @@ bool judge_move(int idx, int d) {
 bool move_knights() {
     int knight, dir;
     cin >> knight >> dir;
-    // cout << knight << ' '  << dir_str[dir] << endl;
 
     // 사라진 기사일 경우 명령 무시
     if (alive_knights.find(knight) == alive_knights.end()) return false;
@@ -275,18 +266,13 @@ void acc_damage() {
     // 생존한 기사들의 총 데미지 합 출력
     for (int i : alive_knights) {
         acc += damage_acc[i];
-        // cout << i << ' ' << damage_acc[i] << endl;
     }
     cout << acc;
 }
 
 void run() {
-    // traverse_2d(grid_knight);
-
     while (Q--) {
         if(move_knights()) calc_damage();
-        // traverse_2d(grid_knight);
-        // traverse_grid();
     }
     acc_damage();
 }
@@ -294,6 +280,7 @@ void run() {
 int main() {
     ios_base::sync_with_stdio(false);
     cin.tie(nullptr);
+    freopen("input.txt", "r", stdin);
 
     init();
     input();
