@@ -206,7 +206,7 @@ void select_strong(bool except_self) {
 
     for (int i = 0; i < N; ++i) {
         for (int j = 0; j < M; ++j) {
-            if (grid[i][j] == 0) continue; // 부서진 경우
+            if (grid[i][j] <= 0) continue; // 부서진 경우
             pq_s.push({ grid[i][j], attack_history[i][j], i, j });
         }
     }
@@ -293,10 +293,13 @@ void attack_canon() {
 
     for (int dir = 0; dir < 8; ++dir) {
         int nr = pos_s.r + dr[dir], nc = pos_s.c + dc[dir];
+
         if (!is_grid(nr, nc)) {
             POS t = transformer(nr, nc, dir);
             nr = t.r, nc = t.c;
         }
+
+        if (nr == pos_w.r && nc == pos_w.c) continue;
         grid[nr][nc] -= dam, cur_asso[nr][nc] = 1;
 
     }
