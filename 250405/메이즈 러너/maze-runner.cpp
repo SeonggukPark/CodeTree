@@ -5,15 +5,15 @@
 */
 
 #define _CRT_SECURE_NO_WARNINGS
-#define endl '\n'
-#define INF 987654321
-
 #include <iostream>
 #include <vector>
 #include <queue>
 #include <numeric>
 #include <algorithm>
 #include <set>
+
+#define endl '\n'
+#define INF 987654321
 
 using namespace std;
 
