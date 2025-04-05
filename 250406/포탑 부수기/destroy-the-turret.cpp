@@ -1,7 +1,7 @@
 /*
 *   삼성 SW 역량테스트 2023 상반기 오전 1번 문제 / 포탑 부수기 (L15)
 *   Date: 2025-04-05 (토)
-*   Duration: 
+*   Duration: 2h 18m
 */
 
 #define _CRT_SECURE_NO_WARNINGS
@@ -232,9 +232,7 @@ void select_attack() {
 
     // 선정 후 공격력 증가
     grid[pos_w.r][pos_w.c] += (N + M);
-
     attack_history[pos_w.r][pos_w.c] = cur_turn;
-
     cur_asso[pos_w.r][pos_w.c] = 1;
 }
 
@@ -362,11 +360,10 @@ void run() {
     cout << grid[pos_s.r][pos_s.c];
 }
 
-
 int main() {
     ios_base::sync_with_stdio(false);
     cin.tie(nullptr);
-    // freopen("input.txt", "r", stdin);
+    freopen("input.txt", "r", stdin);
 
     init();
     input();
