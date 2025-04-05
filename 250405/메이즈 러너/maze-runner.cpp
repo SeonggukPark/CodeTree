@@ -233,7 +233,7 @@ void run() {
 int main() {
     ios_base::sync_with_stdio(false);
     cin.tie(nullptr);
-    freopen("input.txt", "r", stdin);
+    // freopen("input.txt", "r", stdin);
 
     init();
     input();
