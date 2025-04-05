@@ -168,11 +168,6 @@ POS transformer(int r, int c, int dir) {
     return p;
 }
 
-POS make_pos(int r, int c) {
-    POS p = { r, c };
-    return p;
-}
-
 // ------------------ 메인 함수 ------------------
 void init() {
     cur_turn = 0;
@@ -197,7 +192,7 @@ void select_weak() {
 
     for (int i = 0; i < N; ++i) {
         for (int j = 0; j < M; ++j) {
-            if (grid[i][j] == 0) continue; // 부서진 경우
+            if (grid[i][j] <= 0) continue; // 부서진 경우
             pq_w.push({ grid[i][j], attack_history[i][j], i, j });
         }
     }
@@ -368,6 +363,8 @@ void run() {
 int main() {
     ios_base::sync_with_stdio(false);
     cin.tie(nullptr);
+    // freopen("input.txt", "r", stdin);
+
     init();
     input();
     run();
