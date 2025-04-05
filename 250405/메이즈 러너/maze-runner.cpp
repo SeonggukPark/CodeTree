@@ -1,4 +1,12 @@
+/*
+*   삼성 SW 역량테스트 2023 상반기 오후 1번 문제 / 메이즈 러너 (L13)
+*   Date: 2025-04-05 (토)
+*   Duration: 2h 04m
+*/
+
 #define _CRT_SECURE_NO_WARNINGS
+#define endl '\n'
+#define INF 987654321
 
 #include <iostream>
 #include <vector>
@@ -6,9 +14,6 @@
 #include <numeric>
 #include <algorithm>
 #include <set>
-
-#define endl '\n'
-#define INF 987654321
 
 using namespace std;
 
@@ -47,7 +52,6 @@ void traverse_alivepos() {
     }
 
     cout << "Pos of exit: " << exit_pos.r << ' ' <<exit_pos.c << endl;
-
 }
 
 // ------------------ 보조 함수 ------------------
@@ -202,7 +206,6 @@ void rotate_maze() {
         grid_user[u.r][u.c] = 1;
     }
 
-
     for (int len = 2; len <= N; ++len) {
         for (int i = 1; i <= N - len + 1; ++i) {
             for (int j = 1; j <= N - len + 1; ++j) {
@@ -220,7 +223,6 @@ void run() {
     while (K--) {
         move_users();
         rotate_maze();
-
         if (remain_users.empty()) break; // 모두 탈출한다면 게임 종료
     }
 
@@ -228,14 +230,13 @@ void run() {
     cout << exit_pos.r << ' ' << exit_pos.c;
 }
 
-
 int main() {
     ios_base::sync_with_stdio(false);
     cin.tie(nullptr);
+    freopen("input.txt", "r", stdin);
 
     init();
     input();
     run();
-
     return 0;
 }
