@@ -1,7 +1,7 @@
 /*
 *   삼성 SW 역량테스트 2022 하반기 오전 1번 문제 / 싸움땅 (L14)
 *   Date: 2025-04-06 (일)
-*   Duration: 
+*   Duration: 1h 18m
 */
 
 #define _CRT_SECURE_NO_WARNINGS
@@ -36,29 +36,6 @@ string dir_str[] = { "UP", "EAST","DOWN", "LEFT"};
  
 vector<vector<priority_queue<int>> > grid;
 vector<PLAYER> players;
-
-//--------------------- 디버깅 함수 ---------------------
-void traverse_2d(const vector<vector<int> >& vec) {
-	cout << "[Traverse]" << endl;
-	for (int i = 0; i < vec.size(); ++i) {
-		for (int j = 0; j < vec[i].size(); ++j) {
-			cout << vec[i][j] << ' ';
-		}
-		cout << endl;
-	}
-	cout << endl;
-}
-
-void traverse_player() {
-	cout << "[Traverse players]" << endl;
-	for (int i = 0; i < M; ++i) {
-		cout << "Player " << i + 1 << " | ";
-		cout << "pos: " << players[i].r << ' ' << players[i].c << ' ';
-		cout << "| d, s, gun, score: " << dir_str[players[i].d] << ' ' << players[i].s << ' ' << players[i].gun << ' ' << players[i].score << endl;
-	}
-	cout << endl;
-}
-
 
 //--------------------- 보조 함수 ---------------------
 
@@ -131,18 +108,12 @@ void fight_two(int p1, int p2) {
 		else winner = p2, loser = p1;
 	}
 
-	// cout << "loser & winner: " << loser + 1 << ' ' << winner + 1 << endl;
 	PLAYER& l = players[loser], & w = players[winner];
-
-
 	w.score += score;
 
 	// 패자 처리 (2-2-2)
 	grid[b.r][b.c].push(l.gun);
 	l.gun = 0;
-
-	// cout << "loser pos: " << l.r << ' ' << l.c << endl;
-
 
 	for (int i = 0; i < 4; ++i) {
 		int nr = l.r + dr[(l.d + i) % 4], nc = l.c + dc[(l.d + i) % 4];
@@ -157,12 +128,10 @@ void fight_two(int p1, int p2) {
 		}
 
 		if (exist_other) continue;
-		// cout << "loser pos: " << nr << ' ' << nc << endl;
 
 		l.r = nr, l.c = nc, l.d = (l.d + i) % 4;
 		break;
 	}
-
 
 	exchange_gun(loser);
 
@@ -191,17 +160,11 @@ void move_player(int player) {
 		if (op.r == p.r && op.c == p.c) other = i;
 	}
 
-	if (other == -1) { // 이동한 곳에 플레이어 없는 경우
-		exchange_gun(player);
-	}
-
-	else { // 이동 후 플레이어 만난 경우
-		fight_two(player, other);
-	}
-
-	// cout << "Player: " << player + 1 << ' ';
-	// traverse_player();
+	// 이동한 곳에 플레이어 없는 경우
+	if (other == -1) exchange_gun(player);
 	
+	// 이동 후 플레이어 만난 경우
+	else fight_two(player, other);
 }
 
 void run() {
@@ -214,11 +177,10 @@ void run() {
 	for (auto & p : players) cout << p.score << ' ';
 }
 
-
 int main() {
 	ios_base::sync_with_stdio(false);
 	cin.tie(nullptr);
-	// freopen("input.txt", "r", stdin);
+	freopen("input.txt", "r", stdin);
 
 	init();
 	input();
