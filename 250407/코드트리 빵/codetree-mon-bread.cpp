@@ -1,7 +1,7 @@
 /*
 *   삼성 SW 역량테스트 2022 하반기 오후 1번 문제 / 코드트리 빵 (L14)
 *   Date: 2025-04-06 (일)
-*   Duration: 
+*   Duration: 1h 40m
 */
 
 #define _CRT_SECURE_NO_WARNINGS
@@ -46,38 +46,6 @@ vector<vector<POS> > visited;
 vector<POS> convs, persons, bases;
 set<int> alive_persons, alive_bases;
 priority_queue<NODE, vector<NODE>, cmp> pq;
-
-// --------------- 디버깅 함수 ---------------
-void traverse_2d(const vector<vector<int> >& vec) {
-    cout << "[Traverse]" << endl;
-    for (int i = 0; i < vec.size(); ++i) {
-        for (int j = 0; j < vec[i].size(); ++j) {
-            cout << vec[i][j] << ' ';
-        }
-        cout << endl;
-    }
-    cout << endl;
-}
-
-void traverse_1d_pos(const vector<POS>& vec) {
-    cout << "[Traverse]" << endl;
-    for (int i = 0; i < vec.size(); ++i) {
-        cout << "Pos of " << i << ": " << vec[i].r << ' ' << vec[i].c << endl;
-    }
-    cout << endl;
-}
-
-void traverse_2d_pos(const vector<vector<POS> >& vec) {
-    cout << "[Traverse]" << endl;
-    for (int i = 0; i < vec.size(); ++i) {
-        for (int j = 0; j < vec[i].size(); ++j) {
-            cout << setw(4);
-            cout << vec[i][j].r << ',' << vec[i][j].c << ' ';
-        }
-        cout << endl;
-    }
-    cout << endl;
-}
 
 // --------------- 보조 함수 ---------------
 void fill_2d_int(vector<vector<int> > & vec, int data) {
@@ -162,11 +130,6 @@ void bfs_mark(POS from, POS to) {
     }
 }
 
-/*
-    @brief from에서 to까지 최단거리로 가기위해 from에서 다음으로 향해야 하는 방향 리턴
-    @param from: 출발지 / to: 도착지
-
-*/
 int shortest_dir(POS from, POS to) {
     bfs_mark(from, to);
 
@@ -174,10 +137,8 @@ int shortest_dir(POS from, POS to) {
     POS cur = to;
     while (true) {
         POS next = visited[cur.r][cur.c];
-
         if (next.r == from.r && next.c == from.c) {
             int dir = -1;
-
             if (cur.r < next.r && cur.c == next.c) dir = 0; // 상
             else if (cur.r == next.r && cur.c < next.c) dir = 1; // 좌
             else if (cur.r == next.r && cur.c > next.c) dir = 2; // 우
@@ -186,16 +147,13 @@ int shortest_dir(POS from, POS to) {
 
             return dir;
         }
-        
         cur = next;
     }
 }
 
 void move_persons() {
     for (int person : alive_persons) {
-
         POS& p = persons[person], & conv = convs[person];
-
         int dir = shortest_dir(p, conv);
         p = { p.r + dr[dir], p.c + dc[dir] };
     }
@@ -215,13 +173,11 @@ void lock_convs() {
     for (int person : cleared_persons) {
         alive_persons.erase(person);
     }
-
 }
 
 void lock_basecamps() {
     int p = cur_time - 1;
     alive_persons.insert(p);
-
     while (!pq.empty()) pq.pop();
 
     for (int base : alive_bases) {
@@ -248,7 +204,6 @@ void lock_basecamps() {
     alive_bases.erase(cur_base.idx);
 }
 
-
 void run() {
     while (true) {
         cur_time++;
@@ -260,11 +215,10 @@ void run() {
     cout << cur_time;
 }
 
-
-
 int main() {
     ios_base::sync_with_stdio(false);
     cin.tie(nullptr);
+    freopen("input.txt", "r", stdin);
     init();
     input();
     run();
