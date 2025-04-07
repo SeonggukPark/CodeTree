@@ -1,7 +1,7 @@
 /*
-*   삼성 SW 역량테스트 2022 하반기 오후 1번 문제 / 코드트리 빵 (L14)
-*   Date: 2025-04-06 (일)
-*   Duration: 1h 40m
+*   삼성 SW 역량테스트 2023 하반기 오후 1번 문제 / 루돌프의 반란 (L14)
+*   Date: 2025-04-07 (월)
+*   Duration: 2h 2m
 */
 
 #define _CRT_SECURE_NO_WARNINGS
@@ -124,10 +124,8 @@ void input() {
 /*
 *  @param from: 누가 / to: 누구를 / dir: 어느 방향으로 이동해서 충돌 했는지
 */
-
 void inter_act(int idx, int dir) {
     int cur = is_santas_exist(idx, santas[idx]);
-
     while (true) {
         santas[cur].r += dr[dir], santas[cur].c += dc[dir];
 
@@ -139,7 +137,6 @@ void inter_act(int idx, int dir) {
         else if (is_santas_exist(cur, santas[cur]) == -1) { // 연쇄 충돌 끝난 경우
             break;
         }
-
         cur = is_santas_exist(cur, santas[cur]);
     }
 }
@@ -152,13 +149,10 @@ void collapse(int from, int to, int dir) {
    
     // 산타가 친 경우
     else santa = from, dir = (dir + 2) % 4, score = D;
-   
 
     POS& s_pos = santas[santa];
     santas_scores[santa] += score, santas_status[santa] = cur_turn + 1;
     s_pos.r += score * dr[dir], s_pos.c += score * dc[dir];
-
-    // cout << "After hit, santa " << santa << " pos: " << s_pos.r << ' ' << s_pos.c << endl;
 
     if (!is_grid(s_pos)) santas_status[santa] = -1; // 격자 밖으로 밀려난 경우 사망
     else if(is_santas_exist(santa, s_pos) != -1) inter_act(santa, dir); // 다음 칸에 다른 산타 있을 경우 연쇄 충돌
@@ -174,8 +168,6 @@ void move_rudolf() {
     }
 
     NODE tar = pq.top();
-
-    // cout << tar.d << ' ' << tar.r << ' ' <<tar.c << endl;
     POS tar_pos = { tar.r, tar.c };
     int min_dist = INF, min_dir = -1;
 
@@ -184,16 +176,10 @@ void move_rudolf() {
         if (!is_grid(np)) continue;
         if (euclid_dist(np, tar_pos) < min_dist) {
             min_dist = euclid_dist(np, tar_pos), min_dir = i;
-
-            // cout << min_dist << ' ' << dir_str[min_dir] << endl;
         }
     }
 
-    // Exception 처리
-    // if (min_dir == -1) cout << "Error occured at move_rudolf()" << endl;
     rudolf = { rudolf.r + dr[min_dir], rudolf.c + dc[min_dir] };
-
-    //cout << "Pos of rudolf: " << rudolf.r << ' ' << rudolf.c << endl;
 
     // 충돌 처리
     int next = is_santas_exist(0, rudolf);
@@ -208,7 +194,6 @@ void move_santas() {
 
         POS & cur_pos = santas[santa];
         int min_dist = euclid_dist(rudolf, cur_pos), min_dir = -1;
-        //cout << "min_dist of santa" << santa << " : " << min_dist << endl;
 
         for (int i = 0; i < 4; ++i) {
             POS np = { cur_pos.r + dr[i], cur_pos.c + dc[i] };
@@ -219,9 +204,7 @@ void move_santas() {
         }
 
         if (min_dir == -1) continue; // 이동 불가의 경우
-
         cur_pos.r += dr[min_dir], cur_pos.c += dc[min_dir];
-       // cout << "New pos of santa " << santa << ": " << cur_pos.r << ' ' << cur_pos.c << endl;
 
         // 충돌 처리
         if (cur_pos.r == rudolf.r && cur_pos.c == rudolf.c) {
@@ -244,14 +227,13 @@ void run() {
         if (count_alive_santas() == 0) break;
         score_round();
     }
-
     for (int i = 1; i <= P; ++i) cout << santas_scores[i] << ' ';
 }
 
 int main() {
     ios_base::sync_with_stdio(false);
     cin.tie(nullptr);
-    freopen("input.txt", "r", stdin);
+    // freopen("input.txt", "r", stdin);
 
     init();
     input();
