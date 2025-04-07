@@ -137,7 +137,7 @@ void spread_trees() {
         }
     }
 
-    // traverse_2d_int(grid);
+   // traverse_2d_int(grid);
 }
 
 /*
@@ -147,15 +147,20 @@ void spread_trees() {
 int drop_killer(POS p, bool is_simulate) {
     int acc = grid[p.r][p.c];
 
+    if (!is_simulate) left_killer[p.r][p.c] = cur_turn + C;
+    if (grid[p.r][p.c] == 0) return 0;
+    if (!is_simulate) grid[p.r][p.c] = 0;
+
     for (int dir = 4; dir < 8; ++dir) {
         POS cur = p;
-        if(!is_simulate) left_killer[p.r][p.c] = cur_turn + C, grid[p.r][p.c] = 0;
 
         for (int len = 1; len <= K; ++len) {
             cur = { cur.r + dr[dir], cur.c + dc[dir] };
-            if (!is_grid(cur) || grid[cur.r][cur.c] == -1) break;
+            // cout << "~ " << cur.r << ' ' << cur.c << endl;
+
+            if (!is_grid(cur)) break;
             if (!is_simulate) left_killer[cur.r][cur.c] = cur_turn + C;
-            if (grid[cur.r][cur.c] == 0) break;
+            if (grid[cur.r][cur.c] <= 0 ) break;
             acc += grid[cur.r][cur.c];
             if (!is_simulate) grid[cur.r][cur.c] = 0;
         }
@@ -168,6 +173,7 @@ POS find_spot() {
     POS p = { 0, 0 };
     int max_cnt = 0;
 
+
     for (int i = 0; i < N; ++i) {
         for (int j = 0; j < N; ++j) {
             if (grid[i][j] == -1) continue;
@@ -176,6 +182,7 @@ POS find_spot() {
             if (cnt > max_cnt) p = { i, j }, max_cnt = cnt;
         }
     }
+    // cout << "p: " << p.r << ' ' << p.c << endl;
 
     return p;
 }
@@ -201,6 +208,8 @@ void run() {
 int main() {
     ios_base::sync_with_stdio(false);
     cin.tie(nullptr);
+    freopen("input.txt", "r", stdin);
+
     init();
     input();
     run();
