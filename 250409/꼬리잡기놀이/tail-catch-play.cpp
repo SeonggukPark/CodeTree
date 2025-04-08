@@ -154,7 +154,7 @@ POS find_next_pos(int idx, bool is_head) {
 void move_teams() {
     // 팀 순회
     for (int team = 1; team < teams.size(); ++team) {
-        // cout << "Team " << team << ": ";
+       // cout << "Team " << team << ": ";
 
         // 1. 머리, 꼬리 이동 방향 찾기
         POS nh = find_next_pos(team, true), nt = find_next_pos(team, false);
@@ -162,8 +162,8 @@ void move_teams() {
         // 머리, 꼬리 정보 갱신 + people 격자 반영
         POS& h = teams[team].h, & t = teams[team].t;
 
-        //cout << h.r << ' ' << h.c << ' ' << t.r << ' ' << t.c << " → ";
-         //cout << nh.r << ' ' << nh.c << ' ' << nt.r << ' ' << nt.c << endl;
+       // cout << h.r << ' ' << h.c << ' ' << t.r << ' ' << t.c << " → ";
+        //cout << nh.r << ' ' << nh.c << ' ' << nt.r << ' ' << nt.c << endl;
 
         if (nh.r == t.r && nh.c == t.c) {
             h = nh, t = nt;
@@ -202,7 +202,10 @@ void throw_ball() {
             for (int i = 0; i < 4; ++i) {
                 int nr = cur.r + dr[i], nc = cur.c + dc[i];
                 if (!is_grid({ nr, nc }) || people[nr][nc] == 0 || grid[nr][nc] != ROAD || visited[nr][nc] == 1) continue;
-                cur = { nr, nc }, visited[nr][nc] = 1;
+                if (teams[people[cur_ball.r][cur_ball.c]].t.r == nr && 
+                    teams[people[cur_ball.r][cur_ball.c]].t.c == nc && cnt == 1) continue;
+
+                cur = { nr, nc }, visited[nr][nc] = 1, cnt++;
                 break;
             }
 
@@ -226,7 +229,7 @@ void run() {
         cur_turn++;
         move_teams(); // 1. 각 팀은 머리사람 따라 한 칸 이동
         throw_ball(); // 2. 공 투척
-        //traverse_2d_int(people);
+        // traverse_2d_int(people);
 
     }
 
