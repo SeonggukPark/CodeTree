@@ -1,7 +1,7 @@
 /*
 *   삼성 SW 역량테스트 2022 상반기 오후 1번 문제 / 꼬리잡기놀이 (L15)
 *   Date: 2025-04-08 (화)
-*   Duration: 
+*   Duration: + 4h
 */
 
 #define _CRT_SECURE_NO_WARNINGS
@@ -37,29 +37,6 @@ int dc[] = { 1, 0, -1, 0 };
 
 vector<vector<int> > grid, people, visited;
 vector<TEAM> teams;
-
-// ---------------- 디버깅 함수 ----------------
-void traverse_2d_int(const vector<vector<int> >& vec) {
-    cout << "[Traverse]" << endl;
-    for (int i = 0; i < vec.size(); ++i) {
-
-        for (int j = 0; j < vec.size(); ++j) {
-            cout << vec[i][j] << ' ';
-        }
-        cout << endl;
-    }
-    cout << endl;
-}
-
-void traverse_team() {
-    cout << "[Traverse team]" << endl;
-    for (int i = 1; i < teams.size(); ++i) {
-        cout << "Team " << i << " head & tail: " << teams[i].h.r << ' ' << teams[i].h.c << ' ';
-        cout << teams[i].t.r << ' ' << teams[i].t.c << endl;
-    }
-    cout << endl;
-}
-
 // ---------------- 보조 함수 ----------------
 void fill_2d_int(vector<vector<int> >& vec, int data) {
     for (int i = 0; i < vec.size(); ++i) {
@@ -154,16 +131,11 @@ POS find_next_pos(int idx, bool is_head) {
 void move_teams() {
     // 팀 순회
     for (int team = 1; team < teams.size(); ++team) {
-       // cout << "Team " << team << ": ";
-
         // 1. 머리, 꼬리 이동 방향 찾기
         POS nh = find_next_pos(team, true), nt = find_next_pos(team, false);
 
         // 머리, 꼬리 정보 갱신 + people 격자 반영
         POS& h = teams[team].h, & t = teams[team].t;
-
-       // cout << h.r << ' ' << h.c << ' ' << t.r << ' ' << t.c << " → ";
-        //cout << nh.r << ' ' << nh.c << ' ' << nt.r << ' ' << nt.c << endl;
 
         if (nh.r == t.r && nh.c == t.c) {
             h = nh, t = nt;
@@ -212,9 +184,7 @@ void throw_ball() {
             idx++;
         }
         
-        // cout << "Hit at " << cur_ball.r << ' ' << cur_ball.c << " whose idx is " << idx << " of groud " << people[cur_ball.r][cur_ball.c] << endl;
         acc_score += (idx * idx);
-
         POS& h = teams[people[cur_ball.r][cur_ball.c]].h, &t = teams[people[cur_ball.r][cur_ball.c]].t;
         swap(h, t);
     }
@@ -223,14 +193,10 @@ void throw_ball() {
 void run() {
     cluster_teams(); // 팀 클러스터링 + 격자 재 설정
 
-    //traverse_2d_int(grid);
-    //traverse_2d_int(people);
     while (K--) {
         cur_turn++;
         move_teams(); // 1. 각 팀은 머리사람 따라 한 칸 이동
         throw_ball(); // 2. 공 투척
-        // traverse_2d_int(people);
-
     }
 
     // 각 팀이 얻은 점수 총합 출력
@@ -241,7 +207,6 @@ int main() {
     ios_base::sync_with_stdio(false);
     cin.tie(nullptr);
     freopen("input.txt", "r", stdin);
-
 
     init();
     input();
