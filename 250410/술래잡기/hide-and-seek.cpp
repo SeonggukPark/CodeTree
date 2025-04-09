@@ -126,7 +126,6 @@ void input() {
         cin >> r >> c;
         grid[r - 1][c - 1] = 1;
     }
-
 }
 
 void move_players() {
@@ -147,8 +146,6 @@ void move_players() {
         // 술래 없으면 이동 (나무 있어도 ok)
         p.r = np.r, p.c = np.c;
     }
-
-    // traverse_players();
 }
 
 void move_watcher() {
@@ -182,13 +179,16 @@ void catch_players() {
     // 격자 크기 관계없이 시야 3칸 고정
     for (int len = 0; len <= 2; ++len) {
         POS np = { watcher.r + len * dr[watcher.dir], watcher.c + len * dc[watcher.dir] };
-        if (!is_grid(np)) return;
+
+        if (!is_grid(np)) break;
 
         // 나무 가려진 경우 안 잡음
         if (grid[np.r][np.c] == 1) continue;
         
         for (int player : alive_players) {
             PLAYER pl = players[player];
+
+            // cout << np.r << ' ' << np.c << ' ' << pl.r << ' ' << pl.c << endl;
 
             // 잡힌 술래는 사망
             if (pl.r == np.r && pl.c == np.c) {
@@ -213,8 +213,9 @@ void run() {
         move_watcher(); // 술래 이동
         catch_players(); // 도망자 잡기
 
+        // cout << endl << "Score of turn " << cur_turn << " : " << acc_score << endl;
         // traverse_players();
-
+        // traverse_watcher();
     }
 
     cout << acc_score;
