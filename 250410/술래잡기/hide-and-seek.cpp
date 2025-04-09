@@ -1,7 +1,7 @@
 /*
 *   삼성 SW 역량테스트 2022 상반기 오전 1번 문제 / 술래잡기 (L15)
 *   Date: 2025-04-09 (수)
-*   Duration:
+*   Duration: 1h 56m
 */
 
 #define _CRT_SECURE_NO_WARNINGS
@@ -43,38 +43,12 @@ int acc_score; // 술래가 얻는 총 점수
 int cur_turn; // 현재 턴
 int dr[] = { -1, 0, 1, 0 }; // 북, 동, 남, 서 
 int dc[] = { 0, 1, 0, -1 };
-string dir_str[] = {"북", "동", "남", "서"};
 
 POS center;
 WATCHER watcher;
 vector<vector<int> > grid;
 vector<PLAYER> players;
 set<int> alive_players;
-
-
-// --------------------- 디버깅 함수 ---------------------
-void traverse_2d_int(const vector<vector<int> >& vec) {
-    cout << "[Traverse]" << endl;
-    for (int i = 0; i < vec.size(); ++i) {
-        for (int j = 0; j < vec[i].size(); ++j) {
-            cout << vec[i][j] << ' ';
-        }
-        cout << endl;
-    }
-    cout << endl;
-}
-
-void traverse_players() {
-    cout << "[Traverse players]" << endl;
-    for (int i : alive_players) cout << "player " << i << ": " << players[i].r << ' ' << players[i].c << ' ' << dir_str[players[i].dir] << endl;
-}
-
-void traverse_watcher() {
-    cout << "[Watcher Info]" << endl;
-    cout << "r, c: " << watcher.r << ' ' << watcher.c << endl;
-    cout << "dir, len, cnt, is_twice, is_rev: " << dir_str[watcher.dir] << ' ' << watcher.len << ' ' << watcher.cnt << ' ';
-    cout << watcher.is_twice << ' ' << watcher.is_rev << endl;
-}
 
 // --------------------- 보조 함수 ---------------------
 void fill_2d_int(vector<vector<int> >& vec, int data) {
@@ -102,7 +76,6 @@ void init() {
 
 void input() {
     cin >> N >> M >> H >> K;
-
     grid.resize(N);
     for (int i = 0; i < N; ++i) grid[i].resize(N);
 
@@ -188,8 +161,6 @@ void catch_players() {
         for (int player : alive_players) {
             PLAYER pl = players[player];
 
-            // cout << np.r << ' ' << np.c << ' ' << pl.r << ' ' << pl.c << endl;
-
             // 잡힌 술래는 사망
             if (pl.r == np.r && pl.c == np.c) {
                 killed_players.insert(player);
@@ -212,12 +183,7 @@ void run() {
         move_players(); // m명의 도망자 이동
         move_watcher(); // 술래 이동
         catch_players(); // 도망자 잡기
-
-        //cout << endl << "Score of turn " << cur_turn << " : " << acc_score << endl;
-        //traverse_players();
-        // traverse_watcher();
     }
-
     cout << acc_score;
 }
 
