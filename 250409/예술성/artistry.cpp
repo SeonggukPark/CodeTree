@@ -1,20 +1,15 @@
 /*
-*   삼성 SW 역량테스트 2022 상반기 오전 2번 문제 / 꼬리잡기놀이 (L13)
+*   삼성 SW 역량테스트 2022 상반기 오전 2번 문제 / 예술성 (L13)
 *   Date: 2025-04-09 (수)
-*   Duration: 
+*   Duration: 대략 1h 30m
 */
 
 #define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
 #include <vector>
-#include <set>
-#include <algorithm>
-#include <numeric>
-#include <iomanip>
 #include <queue>
 
 #define endl '\n'
-#define INF 987654321
 using namespace std;
 
 // ---------------------- 변수 선언 -----------------------------------
@@ -30,18 +25,6 @@ vector<vector<int> > grid, grid_group, grid_22, visited;
 int N; // 격자 크기
 int dr[] = { 0, 0, 1, -1 };
 int dc[] = { 1, -1, 0, 0 };
-
-// ---------------------- 디버깅 함수 -----------------------------------
-void traverse_2d_int(const vector<vector<int> >& vec) {
-    cout << "[Traverese]" << endl;
-    for (int i = 0; i < N; ++i) {
-        for (int j = 0; j < N; ++j) {
-            cout << vec[i][j] << ' ';
-        }
-        cout << endl;
-    }
-    cout << endl;
-}
 
 // ---------------------- 보조 함수 -----------------------------------
 void fill_2d_int(vector<vector<int> >& vec, int data) {
@@ -75,7 +58,6 @@ void input() {
 int score_art() {
     fill_2d_int(grid_group, -1), fill_2d_int(visited, 0);
     int acc = 0, node_idx = 0;
-
     vector<NODE> nodes;
 
     // 좌표 돌면서 group clustering + cluster 개수 구하기 + 해당 cluster에 속한 칸수 count + 해당 cluster 숫자 값 구하기
@@ -85,7 +67,6 @@ int score_art() {
             visited[r][c] = 1;
 
             int num = grid[r][c], cell_cnt = 0;
-
             queue<POS> q;
             q.push({ r, c });
 
@@ -102,7 +83,6 @@ int score_art() {
                     q.push({ np.r, np.c });
                 }
             }
-
             nodes.push_back({ cell_cnt, num });
             node_idx++;
         }
@@ -132,12 +112,9 @@ int score_art() {
     // 모든 cluster 쌍에 대해 점수 구해서 누적
     for (int i = 0; i < cnt; ++i) {
         for (int j = i + 1; j < cnt; ++j) {
-            // cout << "Edge count of " << i << ' ' << j << " : " << edge_count[i][j] << endl;
             acc += (nodes[i].cnt + nodes[j].cnt) * nodes[i].num * nodes[j].num * edge_count[i][j];
-            // cout << (nodes[i].cnt + nodes[j].cnt) * nodes[i].num * nodes[j].num * edge_count[i][j] << endl;
         }
     }
-
     return acc;
 }
 
@@ -186,18 +163,14 @@ void rotate_grid() {
     rotate_clock({ 1 + (N / 2), 1 + (N / 2) });
 }
 
-
 void run(){
     int acc = 0;
-    // traverse_2d_int(grid);
     for (int round = 0; round <= 3; ++round) {
         acc += score_art();
         rotate_grid();
-        // traverse_2d_int(grid);
     }
     cout << acc;
 }
-
 
 int main() {
     ios_base::sync_with_stdio(false);
