@@ -154,7 +154,7 @@ void move_watcher() {
     w.r += dr[w.dir], w.c += dc[w.dir], w.cnt++;
 
     if (w.r == 0 && w.c == 0) {
-        w.dir = SOUTH, w.len = N, w.cnt = 1, w.is_twice = false, w.is_rev = true;
+        w.dir = SOUTH, w.len = N + 1, w.cnt = 2, w.is_twice = true, w.is_rev = true;
         return;
     }
 
@@ -213,8 +213,8 @@ void run() {
         move_watcher(); // 술래 이동
         catch_players(); // 도망자 잡기
 
-        // cout << endl << "Score of turn " << cur_turn << " : " << acc_score << endl;
-        // traverse_players();
+        //cout << endl << "Score of turn " << cur_turn << " : " << acc_score << endl;
+        //traverse_players();
         // traverse_watcher();
     }
 
