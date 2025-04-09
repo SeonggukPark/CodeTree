@@ -43,7 +43,6 @@ void traverse_2d_int(const vector<vector<int> >& vec) {
     cout << endl;
 }
 
-
 // ---------------------- 보조 함수 -----------------------------------
 void fill_2d_int(vector<vector<int> >& vec, int data) {
     for (int i = 0; i < N; ++i) {
@@ -59,8 +58,6 @@ bool is_grid(POS p) {
 }
 
 // ---------------------- 메인 함수 -----------------------------------
-
-
 void init() {
 }
 
@@ -141,7 +138,6 @@ int score_art() {
         }
     }
 
-    // cout << acc << endl;
     return acc;
 }
 
@@ -158,7 +154,7 @@ void rotate_center() {
 }
 
 /*
-*   @brief p를 좌상단으로 하는 2*2 정사각형 회전
+*   @brief p를 좌상단으로 하는 (n / 2)*(n / 2) 정사각형 회전
 */
 void rotate_clock(POS p) {
     fill_2d_int(grid_22, 0);
@@ -185,9 +181,9 @@ void rotate_grid() {
 
     // 4개 정사각형 시계 회전
     rotate_clock({ 0, 0 }); 
-    rotate_clock({ 3, 0 });
-    rotate_clock({ 0, 3 });
-    rotate_clock({ 3, 3 });
+    rotate_clock({ 1 + (N / 2), 0 });
+    rotate_clock({ 0, 1 + (N / 2) });
+    rotate_clock({ 1 + (N / 2), 1 + (N / 2) });
 }
 
 
