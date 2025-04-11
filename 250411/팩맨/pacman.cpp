@@ -145,6 +145,7 @@ void move_pacman() {
 
     POS p = { -1, -1 }, p1, p2;
     int max_cnt = 0;
+    bool is_first = true;
 
     for (int dir_1 = 0; dir_1 < 8; dir_1 += 2) {
         POS p1_tmp = { pacman.r + dr[dir_1], pacman.c + dc[dir_1] };
@@ -156,6 +157,11 @@ void move_pacman() {
                 POS p3_tmp = { p2_tmp.r + dr[dir_3], p2_tmp.c + dc[dir_3] };
 
                 if (!is_grid(p1_tmp) || !is_grid(p2_tmp) || !is_grid(p3_tmp)) continue;
+
+                if (is_first) {
+                    is_first = !is_first;
+                    p1 = p1_tmp, p2 = p2_tmp, p = p3_tmp;
+                }
 
                 int cnt = grid_alive[p1_tmp.r][p1_tmp.c];
                 if (p2_tmp.r != pacman.r || p2_tmp.c != pacman.c) cnt += grid_alive[p2_tmp.r][p2_tmp.c];
@@ -170,14 +176,13 @@ void move_pacman() {
         }
     }
 
-    // if (p.r == -1 && p.c == -1) cout << "error at move_pacman()" << endl;
+    cout << "cur_turn: " << cur_turn << endl;
+    if (p.r == -1 && p.c == -1) cout << "error at move_pacman()" << endl;
   
     pacman = p;
     if (grid_alive[p1.r][p1.c] > 0) grid_dead[p1.r][p1.c] = cur_turn + 2;
     if (grid_alive[p2.r][p2.c] > 0) grid_dead[p2.r][p2.c] = cur_turn + 2;
     if (grid_alive[p.r][p.c] > 0) grid_dead[p.r][p.c] = cur_turn + 2;
-
-    // cout << "Move trace: " << p1.r << ' ' << p1.c << ' ' << p2.r << ' ' << p2.c << ' ' << p.r << ' ' << p.c << endl; 
 
     for (int i = 0; i < size; ++i) {
         INFO& m = monsters[i];
