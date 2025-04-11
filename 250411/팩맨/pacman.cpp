@@ -1,7 +1,7 @@
 /*
 *   삼성 SW 역량테스트 2021 하반기 오후 1번 문제 / 팩맨 (L15)
-*   Date: 2025-04-10 (목)
-*   Duration: 
+*   Date: 2025-04-11 (목)
+*   Duration: 1h 37m
 */
 
 #define _CRT_SECURE_NO_WARNINGS
@@ -33,22 +33,9 @@ int T; // 진행 턴 수
 int cur_turn; // 현재 턴 수
 int dr[] = { -1, -1, 0, 1, 1, 1, 0, -1 }; // 상, 좌상, 좌, 좌하, 하, 우하, 우, 우상
 int dc[] = { 0, -1, -1, -1, 0, 1, 1, 1 };
-string dir_str[] = {"상", "좌상", "좌", "좌하", "하", "우하", "우", "우상"};
 POS pacman;
 vector<INFO> monsters;
 vector<vector<int> > grid, grid_dead, grid_alive;
-
-// ----------------- 디버깅 함수 -----------------
-void traverse_2d_int(const vector<vector<int> >& vec) {
-    cout << "[Traverse]" << endl;
-    for (int i = 0; i < vec.size(); ++i) {
-        for(int j = 0; j < vec[i].size(); ++j) {
-            cout << vec[i][j] << ' ';
-        }
-        cout << endl;
-    }
-    cout << endl;
-}
 
 // ----------------- 보조 함수 -----------------
 void fill_2d_int(vector<vector<int> >& vec, int data) {
@@ -56,13 +43,6 @@ void fill_2d_int(vector<vector<int> >& vec, int data) {
         for (int j = 0; j < vec[i].size(); ++j) {
             vec[i][j] = data;
         }
-    }
-}
-
-void traverse_monsters() {
-    for (int i = 0; i < monsters.size(); ++i) {
-        INFO m = monsters[i];
-        cout << "Monster " << i << " : " << m.r << ' ' << m.c << ' ' << dir_str[m.d] << ' ' << m.is_egg << ' ' << m.is_dead << endl;
     }
 }
 
@@ -74,7 +54,6 @@ bool is_grid(POS p) {
 // ----------------- 메인 함수 -----------------
 void init() {
     grid.resize(N), grid_dead.resize(N), grid_alive.resize(N);
-
     for (int i = 0; i < N; ++i) {
         grid[i].resize(N), grid_dead[i].resize(N), grid_alive[i].resize(N);
     }
