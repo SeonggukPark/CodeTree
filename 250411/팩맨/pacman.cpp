@@ -15,7 +15,6 @@
 
 #define endl '\n'
 #define INF 987654321
-
 using namespace std;
 
 // ----------------- 변수 -----------------
@@ -35,9 +34,7 @@ int cur_turn; // 현재 턴 수
 int dr[] = { -1, -1, 0, 1, 1, 1, 0, -1 }; // 상, 좌상, 좌, 좌하, 하, 우하, 우, 우상
 int dc[] = { 0, -1, -1, -1, 0, 1, 1, 1 };
 string dir_str[] = {"상", "좌상", "좌", "좌하", "하", "우하", "우", "우상"};
-
 POS pacman;
-
 vector<INFO> monsters;
 vector<vector<int> > grid, grid_dead, grid_alive;
 
@@ -98,10 +95,8 @@ void input() {
         m.r--, m.c--, m.d--;
         m.is_egg = false, m.is_dead = false;
     }
-
     cur_turn = 0;
 }
-
 
 void copy_monsters() {
     int size = monsters.size();
@@ -110,9 +105,6 @@ void copy_monsters() {
         if (m.is_dead) continue;
         monsters.push_back({ m.r, m.c, m.d, true, false });
     }
-
-
-    // traverse_monsters();
 }
 
 void move_monsters() {
@@ -133,7 +125,6 @@ void move_monsters() {
 
 void move_pacman() {
     fill_2d_int(grid_alive, 0);
-
     int size = monsters.size();
     for (int i = 0; i < size; ++i) {
         INFO& m = monsters[i];
@@ -141,23 +132,17 @@ void move_pacman() {
         grid_alive[m.r][m.c]++;
     }
 
-    // traverse_2d_int(grid_alive);
-
     POS p = { -1, -1 }, p1, p2;
     int max_cnt = 0;
     bool is_first = true;
 
     for (int dir_1 = 0; dir_1 < 8; dir_1 += 2) {
         POS p1_tmp = { pacman.r + dr[dir_1], pacman.c + dc[dir_1] };
-
         for (int dir_2 = 0; dir_2 < 8; dir_2 += 2) {
             POS p2_tmp = { p1_tmp.r + dr[dir_2], p1_tmp.c + dc[dir_2] };
-
             for (int dir_3 = 0; dir_3 < 8; dir_3 += 2) {
                 POS p3_tmp = { p2_tmp.r + dr[dir_3], p2_tmp.c + dc[dir_3] };
-
                 if (!is_grid(p1_tmp) || !is_grid(p2_tmp) || !is_grid(p3_tmp)) continue;
-
                 if (is_first) {
                     is_first = !is_first;
                     p1 = p1_tmp, p2 = p2_tmp, p = p3_tmp;
@@ -169,15 +154,10 @@ void move_pacman() {
 
                 if (cnt > max_cnt) {
                     p1 = p1_tmp, p2 = p2_tmp, p = p3_tmp, max_cnt = cnt;
-                    // cout << pacman.r << ' ' << pacman.c << ' ' << dir_str[dir_1] << ' ' << dir_str[dir_2] << ' ' << dir_str[dir_3] << endl;
                 }
-
             }
         }
     }
-
-    cout << "cur_turn: " << cur_turn << endl;
-    if (p.r == -1 && p.c == -1) cout << "error at move_pacman()" << endl;
   
     pacman = p;
     if (grid_alive[p1.r][p1.c] > 0) grid_dead[p1.r][p1.c] = cur_turn + 2;
@@ -187,7 +167,6 @@ void move_pacman() {
     for (int i = 0; i < size; ++i) {
         INFO& m = monsters[i];
         if (m.is_egg) continue;
-
         if ((m.r == p1.r && m.c == p1.c) || (m.r == p2.r && m.c == p2.c) || (m.r == p.r && m.c == p.c)) {
             m.is_dead = true;
         }
@@ -196,14 +175,11 @@ void move_pacman() {
 
 void wakeup_eggs() {
     int size = monsters.size();
-
     for (int i = 0; i < size; ++i) {
         INFO& m = monsters[i];
         if (m.is_dead) continue; // 사망한 경우
         m.is_egg = false;
     }
-
-    // traverse_monsters();
 }
 
 void run() {
@@ -226,7 +202,6 @@ int main() {
     ios_base::sync_with_stdio(false);
     cin.tie(nullptr);
     freopen("input.txt", "r", stdin);
-
     init();
     input();
     run();
